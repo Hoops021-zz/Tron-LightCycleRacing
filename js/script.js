@@ -48,6 +48,7 @@ $(document).ready(function () {
         // Load intro view
         renderManager.setCurrent('Intro');
 
+        /*
         // Stats Initialization
         var stats = new Stats(),
             statsdom = stats.getDomElement();
@@ -58,6 +59,7 @@ $(document).ready(function () {
         setInterval(function () {
             stats.update();
         }, 1000 / 60);
+        */
     }
 
     function animate() {
