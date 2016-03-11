@@ -92,7 +92,7 @@ $(document).ready(function () {
 
     $('#play').click(function () {
         lastUpdate = UTIL.now();
-        
+
         startmenu.fadeOut('fast', function () {
             // If game not initalized, create game object & when initalized launch
             // If already initialized, then proceed to launch game
@@ -106,6 +106,7 @@ $(document).ready(function () {
             }
             });
     });
+
     $('#resume').click(function () {
         myGame.paused = false;
         ingamemenu.fadeOut();
