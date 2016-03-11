@@ -34,7 +34,8 @@ $(document).ready(function () {
         window.renderer.autoClear = window.isMobileDevice;
 
         window.renderer.setSize(WIDTH, HEIGHT);
-        window.renderer.setClearColorHex(CONFIG.background, 1.0);
+        //window.renderer.setClearColorHex(CONFIG.background, 1.0);
+        window.renderer.setClearColor(new THREE.Color(CONFIG.background), 1.0);
         window.renderer.clear();
 
         document.body.appendChild(window.renderer.domElement);
