@@ -1,4 +1,8 @@
+
+let texture_loader = new THREE.TextureLoader();
+
 var CONFIG = {
+
     // Color Presets
     'white' : new THREE.Color(0xFFFFFF),
 
@@ -37,11 +41,12 @@ var CONFIG = {
     'defaultPlayerJumpVel' : -450,
     'playerGravityAcceleration' : 1000,
     'playerMaterial' : new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('img/LightCycle_TextureTest1.png'),
+        map: texture_loader.load('img/LightCycle_TextureTest1.png'),
         transparent : false
     }),
     'playerGlowMaterial' : new THREE.MeshPhongMaterial({
-        map: THREE.ImageUtils.loadTexture('img/LightCycle_Glow.png'),
+        //map: texture_loader.load('img/LightCycle_Glow.png'),
+        map: texture_loader.load('img/LightCycle_Glow.png'),
         ambient: 0xFFFFFF,
         color: 0x000000
     }),
@@ -71,7 +76,7 @@ var CONFIG = {
     'itemProbability' : 0.3,
     'PowerUpMesh' : null,
     'PowerUpMaterial' : new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('img/LightDisk.png'),
+        map: texture_loader.load('img/LightDisk.png'),
         transparent : false
     }),
 
@@ -82,11 +87,11 @@ var CONFIG = {
 
     // Particle Settings
     'particleCount' : 2000,
-    'particleTexture' : THREE.ImageUtils.loadTexture('img/Particle.png'),
+    'particleTexture' : texture_loader.load('img/Particle.png'),
     'particleVelocityRange' : 1000,
 
     // Derezz Settings
-    'derezzTexture' : THREE.ImageUtils.loadTexture('img/LightCycle_Glow.png'),
+    'derezzTexture' : texture_loader.load('img/LightCycle_Glow.png'),
 
     // Sound Settings
     'bgSound' : 'sounds/TronMusic1.mp3',
@@ -147,7 +152,7 @@ var CONFIG = {
         });
         
         // Load Texture to define level configuration
-        THREE.ImageUtils.loadTexture('img/Levels/TunnelMap.png', {}, function (data) {
+        texture_loader.load('img/Levels/TunnelMap.png', {}, function (data) {
             CONFIG.tunnelMapData = UTIL.getImageData(data);
             gameLoading.loadFinished();
         });
@@ -162,7 +167,7 @@ var CONFIG = {
                 urlPrefix + 'PosZ.png',
                 urlPrefix + 'NegZ.png'
             ];
-        CONFIG.skyboxTextureCube = THREE.ImageUtils.loadTextureCube(urls, {}, function(data){
+        CONFIG.skyboxTextureCube = texture_loader.loadCube(urls, {}, function(data){
             //CONFIG.skyboxTextureCube = data;//UTIL.getImageData(data);
             gameLoading.loadFinished();
         });

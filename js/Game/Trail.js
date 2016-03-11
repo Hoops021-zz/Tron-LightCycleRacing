@@ -3,6 +3,8 @@
  */
 function Trail(scene, glowscene) {
 
+    let loader = new THREE.TextureLoader();
+
     this.scene = scene;
     this.glowScene = glowscene;
 
@@ -25,13 +27,16 @@ function Trail(scene, glowscene) {
         startTunnelSegment = new TrailSegment(startTopVertex, startBottomVertex, CONFIG.playerPos);
 
     this.material = new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('img/TrailTexture3.png'),
+        //map: THREE.ImageUtils.loadTexture('img/TrailTexture3.png'),
+        map: loader.load("img/TrailTexture3.png"),
         transparent: true,
         reflectivity: 0.05
         // refractionRatio: 0.75
     });
+    
     this.glowMaterial = new THREE.MeshPhongMaterial({
-        map: THREE.ImageUtils.loadTexture('img/TrailTexture3_glow.png'),
+        //map: THREE.ImageUtils.loadTexture('img/TrailTexture3_glow.png'),
+        map: loader.load("img/TrailTexture3_glow.png"),
         ambient: 0x444444,
         color: 0x000000
     });

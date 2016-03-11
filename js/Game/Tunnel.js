@@ -4,6 +4,8 @@
 
 function Tunnel(scene, obstacles) {
 
+    let loader = new THREE.TextureLoader();
+
     this.scene = scene;
     this.obstacles = obstacles;
 
