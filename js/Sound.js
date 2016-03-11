@@ -39,7 +39,8 @@
         this.analyser = this.context.createAnalyser();
         this.analyser.smoothingTimeConstant = 0.4;
         // this.analyser.fftSize = 64;
-        this.processor = this.context.createJavaScriptNode(2048, 1, 1);
+        //this.processor = this.context.createJavaScriptNode(2048, 1, 1);
+        this.processor = this.context.createScriptProcessor(2048, 1, 1);
         cache[this.guid] = this;
         this.load();
     };
