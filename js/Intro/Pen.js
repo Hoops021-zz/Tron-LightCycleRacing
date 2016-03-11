@@ -87,8 +87,10 @@ Pen.prototype.update = function (dt) {
         // Create & add new line segment
         newVec3 = this.penMesh.position.clone();
         lineGeo = new THREE.Geometry();
-        lineGeo.vertices.push(new THREE.Vertex(this.lastVec3));
-        lineGeo.vertices.push(new THREE.Vertex(newVec3));
+        //lineGeo.vertices.push(new THREE.Vertex(this.lastVec3));
+        lineGeo.vertices.push(this.lastVec3);
+        //lineGeo.vertices.push(new THREE.Vertex(newVec3));
+        lineGeo.vertices.push(newVec3);
         this.scene.add(new THREE.Line(lineGeo, this.lineMaterial));
 
         this.lastVec3 = newVec3;
