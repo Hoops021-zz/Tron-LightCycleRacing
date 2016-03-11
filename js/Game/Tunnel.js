@@ -4,7 +4,7 @@
 
 function Tunnel(scene, obstacles) {
 
-    let loader = new THREE.TextureLoader();
+    var loader = new THREE.TextureLoader();
 
     this.scene = scene;
     this.obstacles = obstacles;
@@ -25,7 +25,8 @@ function Tunnel(scene, obstacles) {
 
     this.material = [
         new THREE.MeshLambertMaterial({
-            map: THREE.ImageUtils.loadTexture('img/TunnelTexture5.png'),
+            //map: THREE.ImageUtils.loadTexture('img/TunnelTexture5.png'),
+            map: loader.load("img/TunnelTexture5.png"),
             transparent : true
         }),
         new THREE.MeshLambertMaterial({

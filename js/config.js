@@ -1,5 +1,5 @@
 
-let texture_loader = new THREE.TextureLoader();
+var texture_loader = new THREE.TextureLoader();
 
 var CONFIG = {
 

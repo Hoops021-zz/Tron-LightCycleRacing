@@ -3,7 +3,7 @@
  */
 function Trail(scene, glowscene) {
 
-    let loader = new THREE.TextureLoader();
+    var loader = new THREE.TextureLoader();
 
     this.scene = scene;
     this.glowScene = glowscene;
@@ -33,7 +33,7 @@ function Trail(scene, glowscene) {
         reflectivity: 0.05
         // refractionRatio: 0.75
     });
-    
+
     this.glowMaterial = new THREE.MeshPhongMaterial({
         //map: THREE.ImageUtils.loadTexture('img/TrailTexture3_glow.png'),
         map: loader.load("img/TrailTexture3_glow.png"),
