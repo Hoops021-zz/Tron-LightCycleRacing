@@ -34,7 +34,8 @@
         this.guid = guid();
         this.ready = false;
         this.fxReady;
-        this.gain = this.context.createGainNode();
+        //this.gain = this.context.createGainNode();
+        this.gain = this.context.createGain();
         this.analyser = this.context.createAnalyser();
         this.analyser.smoothingTimeConstant = 0.4;
         // this.analyser.fftSize = 64;

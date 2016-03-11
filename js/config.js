@@ -47,7 +47,7 @@ var CONFIG = {
     'playerGlowMaterial' : new THREE.MeshPhongMaterial({
         //map: texture_loader.load('img/LightCycle_Glow.png'),
         map: texture_loader.load('img/LightCycle_Glow.png'),
-        ambient: 0xFFFFFF,
+        diffuse: 0xFFFFFF,
         color: 0x000000
     }),
     'playerGeometry' : null,
@@ -122,7 +122,7 @@ var CONFIG = {
     'boxObstacleHeight' : 30,
     'obstacleMaterial' : new THREE.MeshLambertMaterial({
         color : 0x47C5D8,
-        ambient : 0x47C5D8,
+        diffuse : 0x47C5D8,
         // shading : THREE.SmoothShading,
         wireframe : false
     }),

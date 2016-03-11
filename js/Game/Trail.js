@@ -37,7 +37,7 @@ function Trail(scene, glowscene) {
     this.glowMaterial = new THREE.MeshPhongMaterial({
         //map: THREE.ImageUtils.loadTexture('img/TrailTexture3_glow.png'),
         map: loader.load("img/TrailTexture3_glow.png"),
-        ambient: 0x444444,
+        diffuse: 0x444444,
         color: 0x000000
     });
 

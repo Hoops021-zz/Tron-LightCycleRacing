@@ -171,7 +171,7 @@ function Credit(scene, pos) {
             specular: COLOR1,
             shading: THREE.FlatShading,
             opacity: 0.75,
-            ambient: 0x202830
+            //ambient: 0x202830
         })
     );
     this.glyph2.position = this.position;
