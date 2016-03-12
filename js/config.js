@@ -138,7 +138,7 @@ var CONFIG = {
     },
     
     'initGameResources' : function (callback) {
-        var numOfItemsToLoad = 4, 
+        var numOfItemsToLoad = 3, 
             gameLoading = UTIL.load(numOfItemsToLoad, callback);
             
         // Load .js (aka .obj geometry) files for game
@@ -168,10 +168,12 @@ var CONFIG = {
                 urlPrefix + 'PosZ.png',
                 urlPrefix + 'NegZ.png'
             ];
+            /*
             //THREE.ImageUtils.loadTexture
         CONFIG.skyboxTextureCube = texture_loader.loadCube(urls, {}, function(data){
             //CONFIG.skyboxTextureCube = data;//UTIL.getImageData(data);
             gameLoading.loadFinished();
         });
+        */
     }
 };

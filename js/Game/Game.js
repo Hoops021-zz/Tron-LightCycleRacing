@@ -26,23 +26,25 @@ function Game(rendermanager, soundManager, initCallback) {
     this.scene.add(this.camera);
     this.scene.add(new THREE.AmbientLight(0xAAAAAA));
 
+    /*
     // Glow Scene setup
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
     this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
-
+*/
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
         // Objects
         this.player = new Player(this.scene, this.glowScene);
+        /*
         this.obstacles = new Obstacles(this.scene);
         this.tunnel = new Tunnel(this.scene, this.obstacles);
         this.itemManager = new ItemManager(this.scene);
         this.particleManager = new ParticleEngine(this.scene);
         this.skybox = new SkyBox(this.scene);
-
+        */
         this.resourcesLoaded = true;
         this.playing = true;
         
@@ -73,7 +75,7 @@ function Game(rendermanager, soundManager, initCallback) {
         function () {
             this.soundManager.pauseMusic();
         }
-    );
+    );*/
 }
 
 Game.prototype.newGame = function () {
@@ -84,11 +86,13 @@ Game.prototype.newGame = function () {
 
         // Reset Game Components
         this.player.reset();
+        /*
         this.tunnel.reset();
         this.itemManager.reset();
         this.particleManager.reset();
         this.skybox.reset();
-
+        */
+        
         this.camera.position = CONFIG.cameraPos.clone();
 
         // update timer
