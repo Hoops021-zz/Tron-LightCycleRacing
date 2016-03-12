@@ -47,8 +47,9 @@ var CONFIG = {
     'playerGlowMaterial' : new THREE.MeshPhongMaterial({
         //map: texture_loader.load('img/LightCycle_Glow.png'),
         map: texture_loader.load('img/LightCycle_Glow.png'),
-        diffuse: 0xFFFFFF,
-        color: 0x000000
+        //diffuse: 0xFFFFFF,
+        //color: 0x000000
+        color:0xFFFFFF
     }),
     'playerGeometry' : null,
 
@@ -122,7 +123,7 @@ var CONFIG = {
     'boxObstacleHeight' : 30,
     'obstacleMaterial' : new THREE.MeshLambertMaterial({
         color : 0x47C5D8,
-        diffuse : 0x47C5D8,
+        //diffuse : 0x47C5D8,
         // shading : THREE.SmoothShading,
         wireframe : false
     }),
@@ -167,6 +168,7 @@ var CONFIG = {
                 urlPrefix + 'PosZ.png',
                 urlPrefix + 'NegZ.png'
             ];
+            //THREE.ImageUtils.loadTexture
         CONFIG.skyboxTextureCube = texture_loader.loadCube(urls, {}, function(data){
             //CONFIG.skyboxTextureCube = data;//UTIL.getImageData(data);
             gameLoading.loadFinished();
