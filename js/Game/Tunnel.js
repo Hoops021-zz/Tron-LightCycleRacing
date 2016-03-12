@@ -195,10 +195,10 @@ function TunnelSegment(startZ, materials, imageData, obstacles) {
 
             // Create vertices for current quad in cylinder segment
             this.geometry.vertices.push(
-                UTIL.vtx3(rcos, rsin, startZ),
-                UTIL.vtx3(rcos, rsin, startZ - depth),
-                UTIL.vtx3(rcosd, rsind, startZ - depth),
-                UTIL.vtx3(rcosd, rsind, startZ)
+                UTIL.v3(rcos, rsin, startZ),
+                UTIL.v3c(rcos, rsin, startZ - depth),
+                UTIL.v3c(rcosd, rsind, startZ - depth),
+                UTIL.v3c(rcosd, rsind, startZ)
             );
 
             // Define normals to point inward

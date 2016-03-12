@@ -25,13 +25,12 @@ function Game(rendermanager, soundManager, initCallback) {
     this.scene = new THREE.Scene();
     this.scene.add(this.camera);
     this.scene.add(new THREE.AmbientLight(0xAAAAAA));
-
-    alert("scene built");
-    /*
+    
     // Glow Scene setup
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
+    /*-
     this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
     */
@@ -39,14 +38,14 @@ function Game(rendermanager, soundManager, initCallback) {
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
         // Objects
-        //this.player = new Player(this.scene, this.glowScene);
-        /*
+        this.player = new Player(this.scene, this.glowScene);
+        
         this.obstacles = new Obstacles(this.scene);
-        this.tunnel = new Tunnel(this.scene, this.obstacles);
+        //-this.tunnel = new Tunnel(this.scene, this.obstacles);
         this.itemManager = new ItemManager(this.scene);
-        this.particleManager = new ParticleEngine(this.scene);
+        //-this.particleManager = new ParticleEngine(this.scene);
         this.skybox = new SkyBox(this.scene);
-        */
+        
         this.resourcesLoaded = true;
         this.playing = true;
         
@@ -61,14 +60,17 @@ function Game(rendermanager, soundManager, initCallback) {
         function (delta, renderer) {
             if (!this.paused && this.resourcesLoaded) {
                 this.update(delta);
-                log('drawing');
+                //log('drawing');
                 
+                renderer.render(this.scene, this.camera);
+
+                /*
                 if (window.isMobileDevice) {
                     renderer.render(this.scene, this.camera);
                 } else {
-                    //this.glowcomposer.render(0.1);
-                    //this.finalcomposer.render(0.1);
-                }
+                    this.glowcomposer.render(0.1);
+                    this.finalcomposer.render(0.1);
+                }*/
             }
         },
         function () {
@@ -79,7 +81,6 @@ function Game(rendermanager, soundManager, initCallback) {
         }
     );
 
-    alert("rendermanager set");
 }
 
 Game.prototype.newGame = function () {
@@ -89,13 +90,12 @@ Game.prototype.newGame = function () {
         this.lastUpdate = UTIL.now();
 
         // Reset Game Components
-        /*
+        
         this.player.reset();
-        this.tunnel.reset();
+        //-this.tunnel.reset();
         this.itemManager.reset();
-        this.particleManager.reset();
+        //-this.particleManager.reset();
         this.skybox.reset();
-        */
 
         this.camera.position = CONFIG.cameraPos.clone();
 
@@ -109,11 +109,12 @@ Game.prototype.gameOver = function () {
 };
 
 Game.prototype.update = function (dt) {
-    /*
+    
     window.levelProgress = this.player.getPosition().z;
 
     // Call update methods to produce animation
     this.player.update(dt);
+    this.player.accelerate();
 
     if (!this.player.isAlive) {
         if (this.playing) {
@@ -121,23 +122,22 @@ Game.prototype.update = function (dt) {
             this.playing = false;
         }
     } else {
-        this.tunnel.update();
+        //-this.tunnel.update();
         this.itemManager.update();
         this.skybox.update();
-        this.checkCollisions();
+        //-this.checkCollisions();
     }
 
-    this.particleManager.update(this.soundManager.bgMusicGain / 20);
+    //-this.particleManager.update(this.soundManager.bgMusicGain / 20);
 
     // camera.position.z += CONFIG.cameraVel.z * dt;
     // TODO: Temp solution by placing camera with an offset from player
 
     // Use mouse to rotate camera around
-    //this.camera.rotation.x = (window.innerHeight / 2 - this.mouseY) / 1000;
-    //this.camera.rotation.y = (window.innerWidth / 2 - this.mouseX) / 1000;
-
-    this.camera.position.z = this.player.position.z + CONFIG.cameraOffset;
-    */
+    //-this.camera.rotation.x = (window.innerHeight / 2 - this.mouseY) / 1000;
+    //-this.camera.rotation.y = (window.innerWidth / 2 - this.mouseX) / 1000;
+    
+    //this.camera.position.z = this.player.position.z + CONFIG.cameraOffset;
 };
 
 Game.prototype.checkCollisions = function () {

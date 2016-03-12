@@ -14,12 +14,12 @@ function Trail(scene, glowscene) {
 
     var theta = CONFIG.playerPos.theta,
         z = CONFIG.playerPos.z,
-        startBottomVertex = UTIL.vtx3(
+        startBottomVertex = UTIL.v3(
             (CONFIG.playerPos.radius + CONFIG.trailHeight) * Math.cos(theta),
             (CONFIG.playerPos.radius + CONFIG.trailHeight) * Math.sin(theta),
             z
         ),
-        startTopVertex = UTIL.vtx3(
+        startTopVertex = UTIL.v3(
             (CONFIG.playerPos.radius - CONFIG.trailHeight) * Math.cos(theta),
             (CONFIG.playerPos.radius - CONFIG.trailHeight) * Math.sin(theta),
             z
@@ -83,12 +83,12 @@ Trail.prototype.reset = function () {
 
     var theta = CONFIG.playerPos.theta,
         z = CONFIG.playerPos.z,
-        startBottomVertex = UTIL.vtx3(
+        startBottomVertex = UTIL.v3(
             (CONFIG.playerPos.radius + CONFIG.trailHeight) * Math.cos(theta),
             (CONFIG.playerPos.radius + CONFIG.trailHeight) * Math.sin(theta),
             z
         ),
-        startTopVertex = UTIL.vtx3(
+        startTopVertex = UTIL.v3(
             (CONFIG.playerPos.radius - CONFIG.trailHeight) * Math.cos(theta),
             (CONFIG.playerPos.radius - CONFIG.trailHeight) * Math.sin(theta),
             z
@@ -130,12 +130,12 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
         faceuv;
 
     // Define forward two vertices
-    this.frontBottomVertex =  UTIL.vtx3(
+    this.frontBottomVertex =  UTIL.v3(
         (playerPosition.radius + CONFIG.trailHeight) * Math.cos(theta),
         (playerPosition.radius + CONFIG.trailHeight) * Math.sin(theta),
         z
     );
-    this.frontTopVertex = UTIL.vtx3(
+    this.frontTopVertex = UTIL.v3(
         (playerPosition.radius - CONFIG.trailHeight) * Math.cos(theta),
         (playerPosition.radius - CONFIG.trailHeight) * Math.sin(theta),
         z
@@ -158,15 +158,15 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
 
     // Configure UV Texturing coord data
     faceuv = [
-        new THREE.UV(0, 1),
-        new THREE.UV(0, 0),
-        new THREE.UV(1, 0),
-        new THREE.UV(1, 1)
+        new THREE.Vector2(0, 1),
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(1, 0),
+        new THREE.Vector2(1, 1)
     ];
 
     // TODO: This is kind of a hack. fix later?
-    this.geometry.faceUvs[0].push(new THREE.UV(0, 1));
-    this.geometry.faceUvs[0].push(new THREE.UV(0, 1));
+    //this.geometry.faceUvs[0].push(new THREE.Vector2(0, 1));
+    //this.geometry.faceUvs[0].push(new THREE.Vector2(0, 1));
     this.geometry.faceVertexUvs[0].push(faceuv);
     this.geometry.faceVertexUvs[0].push(faceuv);
 }

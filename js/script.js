@@ -101,7 +101,7 @@ $(document).ready(function () {
             // If already initialized, then proceed to launch game
             if(myGame == null){
                 myGame = new Game(renderManager, soundManager, function(){
-                    //launchGame()
+                    launchGame()
                 });
             }
             else{

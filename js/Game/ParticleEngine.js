@@ -7,13 +7,14 @@ function ParticleEngine(scene) {
     this.particles = null;
 
     // Generate all particles
-    this.generateParticles();
+    //this.generateParticles();
 
     // Set Shader Material Parameters
     this.attributes = {
         size: {type: 'f', value: []},
         ca:   {type: 'c', value: []}
     };
+
 
     this.uniforms = {
         amplitude: {type: 'f', value: 1.0 },
@@ -73,11 +74,16 @@ ParticleEngine.prototype.reset = function () {
     // Modify attributes of shader on per-particle basis
     var sizes = this.attributes.size.value,
         colors = this.attributes.ca.value;
+
     _.each(this.particles.vertices, function (vertex, v) {
         sizes[v] = 3;
         colors[v] = CONFIG.white;
-        var value = Math.abs(vertex.position.z) / (CONFIG.viewDistance * 20);
-        colors[v].setHSV(0.55, 0.75, 1.0);
+        var value = Math.abs(vertex.z) / (CONFIG.viewDistance * 20);
+        //colors[v].setHSV(0.55, 0.75, 1.0);
+        // setHSV deprecated 
+        var h = 0.55, s = 0.75, v = 1.0;
+        colors[v].setHSL( h, ( s * v ) / ( ( h = ( 2 - s ) * v ) < 1 ? h : ( 2 - h ) ), h * 0.5 );
+        
         //colors[v].setHSV(Math.random(), Math.random(), Math.random());
     });
 
@@ -89,7 +95,10 @@ ParticleEngine.prototype.reset = function () {
 };
 
 ParticleEngine.prototype.generateParticles = function () {
+     //- TODO: Transform to BufferGeometry with BufferedAttributes**8
+     // http://threejs.org/docs/#Reference/Core/BufferGeometry
      this.particles = new THREE.Geometry();
+
 
     var theta, radius, pX, pY, pZ, particle;
     _.times(CONFIG.particleCount, UTIL.wrap(this, function () {
@@ -100,10 +109,13 @@ ParticleEngine.prototype.generateParticles = function () {
         pY = radius * Math.sin(theta);
         pZ = Math.random() * (-CONFIG.viewDistance * 20);
 
-        particle = UTIL.vtx3(pX, pY, pZ);
+        particle = UTIL.v3c(pX, pY, pZ);
         particle.velocity = UTIL.v3(0, 0, Math.random());
 
         this.particles.vertices.push(particle);
+
+        this.attributes.size.value.push(3);
+        this.attributes.ca.value.push(CONFIG.white);
     }));
 
 };

@@ -5,9 +5,10 @@ var UTIL = {
     v3 : function (x, y, z) {
         return new THREE.Vector3(x, y, z);
     },
+    /*
     vtx3 : function (x, y, z) {
         return new THREE.Vertex(UTIL.v3(x, y, z));
-    },
+    },*/
     v3c : function (radius, theta, z) {
         var Coord = function (_r, _th, _z) {
             this.radius = _r;

@@ -6,7 +6,7 @@ function Player(scene, glowscene) {
     this.scene = scene;
     this.glowScene = glowscene;
 
-    this.trail = new Trail(this.scene, this.glowScene);
+    //-this.trail = new Trail(this.scene, this.glowScene);
 
     this.position = CONFIG.playerPos.clone();
     this.velocity = CONFIG.playerDefaulVel.clone();
@@ -29,7 +29,7 @@ function Player(scene, glowscene) {
     // this.boundingSphere = this.mesh.geometry.boundingSphere;
 
     var box = this.boundingBox,
-        temp = box.max.clone().subSelf(box.min),
+        temp = box.max.clone().sub(box.min),
         radius = Math.max(temp.x, temp.y) / 2;
     this.boundingSphere = {
         radius: radius,
@@ -64,7 +64,7 @@ Player.prototype.reset = function () {
 
     this.updatePosition();
 
-    this.trail.reset();
+    //-this.trail.reset();
 
     if (this.DerezzEffect) {
         this.DerezzEffect.remove();
@@ -83,7 +83,7 @@ Player.prototype.Derezz = function () {
     if (this.isAlive) {
         // Remove mesh & glow mesh from respective scenes
         this.scene.remove(this.mesh);
-        this.glowScene.remove(this.glowMesh);
+        //-this.glowScene.remove(this.glowMesh);
 
         // Kill player
         this.isAlive = false;
@@ -138,8 +138,9 @@ Player.prototype.move = function (dt) {
 
 Player.prototype.updatePosition = function () {
     if (this.mesh !== null) {
-        this.mesh.position = this.position.convertToCartesian();
-
+        var newPos = this.position.convertToCartesian();
+        this.mesh.position.set(newPos.x, newPos.y, newPos.z);
+        
         // Update Glow Mesh
         this.glowMesh.rotation = this.mesh.rotation;
         this.glowMesh.position = this.mesh.position;
@@ -185,7 +186,9 @@ Player.prototype.resetLateralAcceleration = function () {
 Player.prototype.update = function (dt) {
     if (this.isAlive) {
         this.move(dt);
-        this.trail.update(this.position.clone());
+        this.mesh.position.z -= 0.03;
+        //-this.mesh.rotation.y += 0.03;
+        //-this.trail.update(this.position.clone());
     } else {
         this.DerezzEffect.update(dt);
     }

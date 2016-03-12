@@ -178,8 +178,8 @@ function Credit(scene, pos) {
     this.parent.add(this.glyph2);
 
     // GLYPHE2 WIREFRAME
-    this.glyph2wf = new THREE.Mesh(
-        THREE.GeometryUtils.clone(glyph2geom),
+    this.glyph2wf = new THREE.Mesh(glyph2geom.clone(),
+        //+THREE.GeometryUtils.clone(glyph2geom),
         new THREE.MeshBasicMaterial({
             color: COLOR2,
             wireframe: true,

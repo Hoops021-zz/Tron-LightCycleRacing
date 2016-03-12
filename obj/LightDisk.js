@@ -19,7 +19,6 @@
 	"DbgColor" : 15658734,
 	"DbgIndex" : 0,
 	"DbgName" : "phong1SG",
-	"colorAmbient" : [0.0, 0.0, 0.0],
 	"colorDiffuse" : [0.0, 0.0, 0.0],
 	"colorSpecular" : [0.5, 0.5, 0.5],
 	"illumination" : 4,
