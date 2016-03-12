@@ -141,22 +141,33 @@ var CONFIG = {
         var numOfItemsToLoad = 3, 
             gameLoading = UTIL.load(numOfItemsToLoad, callback);
             
+
         // Load .js (aka .obj geometry) files for game
         var geometryLoader = new THREE.JSONLoader();
         geometryLoader.load('obj/LightDisk.js', function (geometry) {
             CONFIG.PowerUpMesh = geometry;
+            alert("first item finished");
             gameLoading.loadFinished();
         });
+
+alert("first item executed");
+
         geometryLoader.load('obj/LightCycle.js', function (geometry) {
             CONFIG.playerGeometry = geometry;
+            alert("second item executed");
             gameLoading.loadFinished();
         });
+
+        alert("second item executed");
         
         // Load Texture to define level configuration
         texture_loader.load('img/Levels/TunnelMap.png', {}, function (data) {
             CONFIG.tunnelMapData = UTIL.getImageData(data);
+            alert("third item executed");
             gameLoading.loadFinished();
         });
+
+        alert("third item executed");
         
         // Load textures for Skybox
         var urlPrefix   = 'img/SpaceSkybox/',

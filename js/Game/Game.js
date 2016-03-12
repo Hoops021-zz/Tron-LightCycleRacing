@@ -35,7 +35,7 @@ function Game(rendermanager, soundManager, initCallback) {
     this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
     */
-    /*
+    
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
         // Objects
@@ -46,12 +46,12 @@ function Game(rendermanager, soundManager, initCallback) {
         this.itemManager = new ItemManager(this.scene);
         this.particleManager = new ParticleEngine(this.scene);
         this.skybox = new SkyBox(this.scene);
-        
+        */
         this.resourcesLoaded = true;
         this.playing = true;
         
         initCallback();
-    }));*/
+    }));
 
     //this.initPostProcessing();
 
