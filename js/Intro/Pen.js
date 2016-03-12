@@ -32,7 +32,8 @@ function Pen(scene, path, rotations) {
     this.curve = new THREE.LineCurve(this.penPath[0], this.penPath[this.pathIndex]);
 
     this.penMesh = new THREE.Mesh(CONFIG.playerGeometry, this.material);
-    this.penMesh.position = startVec3;
+    //+this.penMesh.position = startVec3;
+    this.penMesh.position.set(startVec3.x, startVec3.y, startVec3.z);
     //this.penMesh.scale.set(1.25,1.25,1.25);
     this.penMesh.rotation.x = HALFPI;
     this.penMesh.rotation.y = HALFPI;
@@ -78,8 +79,10 @@ Pen.prototype.update = function (dt) {
             this.dist += dt * CONFIG.PenDrawSpeed;
             pos = this.curve.getPoint(this.dist / this.currentEdgeDist);
         }
-
-        this.penMesh.position = new THREE.Vector3(pos.x, pos.y, 0);
+        
+        //+this.penMesh.position = new THREE.Vector3(pos.x, pos.y, 0);
+        this.penMesh.position.set(pos.x, pos.y, 0);
+         
         //this.line.geometry.vertices.push(new THREE.Vertex(new THREE.Vector3(pos.x, pos.y, 0)));
         //this.line.geometry.__dirtyVertices = true;
         //this.line.geometry.dynamic = true;

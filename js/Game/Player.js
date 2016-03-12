@@ -83,7 +83,7 @@ Player.prototype.Derezz = function () {
     if (this.isAlive) {
         // Remove mesh & glow mesh from respective scenes
         this.scene.remove(this.mesh);
-        //-this.glowScene.remove(this.glowMesh);
+        this.glowScene.remove(this.glowMesh);
 
         // Kill player
         this.isAlive = false;
@@ -91,6 +91,7 @@ Player.prototype.Derezz = function () {
          // Transform vertices into current position points;
         var particles = new THREE.Geometry(),
             positionVector = this.position.convertToCartesian();
+
         _.each(this.mesh.geometry.vertices, function (vertex) {
             var newVertex = vertex.clone();
             newVertex.position.multiplyScalar(3);
@@ -186,8 +187,7 @@ Player.prototype.resetLateralAcceleration = function () {
 Player.prototype.update = function (dt) {
     if (this.isAlive) {
         this.move(dt);
-        this.mesh.position.z -= 0.03;
-        //-this.mesh.rotation.y += 0.03;
+        
         //-this.trail.update(this.position.clone());
     } else {
         this.DerezzEffect.update(dt);

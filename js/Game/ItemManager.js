@@ -95,7 +95,8 @@ function PowerUp(scene, pos) {
 
     this.mesh = new THREE.Mesh(CONFIG.PowerUpMesh, CONFIG.PowerUpMaterial);
     this.mesh.scale.set(3, 3, 3);
-    this.mesh.position = this.position;
+    //+this.mesh.position = this.position;
+    this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     this.mesh.rotation.x = Math.PI / 2;
 
     this.mesh.geometry.computeBoundingBox();

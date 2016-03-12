@@ -144,13 +144,15 @@ var CONFIG = {
 
         // Load .js (aka .obj geometry) files for game
         var geometryLoader = new THREE.JSONLoader();
-        geometryLoader.load('obj/LightDisk.js', function (geometry) {
+        geometryLoader.load('obj/LightDisk_2016.json', function (geometry) {
+        //geometryLoader.load('obj/LightDisk.js', function (geometry) {
             CONFIG.PowerUpMesh = geometry;
             gameLoading.loadFinished();
         });
 
 
-        geometryLoader.load('obj/LightCycle.js', function (geometry) {
+        geometryLoader.load('obj/LightCycle_2016.json', function (geometry) {
+        //geometryLoader.load('obj/LightCycle.js', function (geometry) {
             CONFIG.playerGeometry = geometry;
             gameLoading.loadFinished();
         });

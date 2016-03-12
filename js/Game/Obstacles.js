@@ -14,7 +14,8 @@ function Block(pos, length, width, height, scene) {
 
     this.mesh = new THREE.Mesh(geometry, CONFIG.obstacleMaterial);
 
-    this.mesh.position = this.position;
+    //+this.mesh.position = this.position;
+    this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     this.mesh.rotation.z = pos.theta;
 
     this.mesh.geometry.computeBoundingBox();

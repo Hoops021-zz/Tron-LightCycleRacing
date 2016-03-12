@@ -36,6 +36,7 @@ function Intro(rendermanager) {
     // Wrap the function to be called while preserving the context
     CONFIG.initIntroResources(UTIL.wrap(this, function () {
         var tronPath = _.map(CONFIG.penPath, function (val) {
+
             return UTIL.v2(val[0], val[1]);
         }),
             tronRotations = _.pluck(CONFIG.penPath, '2');
