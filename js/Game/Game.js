@@ -51,7 +51,7 @@ function Game(rendermanager, soundManager, initCallback) {
         initCallback();
     }));
 
-    this.initPostProcessing();
+    //this.initPostProcessing();
 
     rendermanager.add(
         'Game',
@@ -64,18 +64,18 @@ function Game(rendermanager, soundManager, initCallback) {
                 if (window.isMobileDevice) {
                     renderer.render(this.scene, this.camera);
                 } else {
-                    this.glowcomposer.render(0.1);
-                    this.finalcomposer.render(0.1);
+                    //this.glowcomposer.render(0.1);
+                    //this.finalcomposer.render(0.1);
                 }
             }
         },
         function () {
-            this.soundManager.playMusic();
+            //this.soundManager.playMusic();
         },
         function () {
-            this.soundManager.pauseMusic();
+            //this.soundManager.pauseMusic();
         }
-    );*/
+    );
 }
 
 Game.prototype.newGame = function () {
@@ -92,7 +92,7 @@ Game.prototype.newGame = function () {
         this.particleManager.reset();
         this.skybox.reset();
         */
-        
+
         this.camera.position = CONFIG.cameraPos.clone();
 
         // update timer
