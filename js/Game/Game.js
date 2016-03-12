@@ -26,6 +26,7 @@ function Game(rendermanager, soundManager, initCallback) {
     this.scene.add(this.camera);
     this.scene.add(new THREE.AmbientLight(0xAAAAAA));
 
+    alert("scene built");
     /*
     // Glow Scene setup
     this.glowScene = new THREE.Scene();
@@ -33,11 +34,11 @@ function Game(rendermanager, soundManager, initCallback) {
 
     this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
-*/
+    */
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
         // Objects
-        this.player = new Player(this.scene, this.glowScene);
+        //this.player = new Player(this.scene, this.glowScene);
         /*
         this.obstacles = new Obstacles(this.scene);
         this.tunnel = new Tunnel(this.scene, this.obstacles);
@@ -76,6 +77,8 @@ function Game(rendermanager, soundManager, initCallback) {
             //this.soundManager.pauseMusic();
         }
     );
+
+    alert("rendermanager set");
 }
 
 Game.prototype.newGame = function () {
@@ -85,8 +88,8 @@ Game.prototype.newGame = function () {
         this.lastUpdate = UTIL.now();
 
         // Reset Game Components
-        this.player.reset();
         /*
+        this.player.reset();
         this.tunnel.reset();
         this.itemManager.reset();
         this.particleManager.reset();
@@ -105,6 +108,7 @@ Game.prototype.gameOver = function () {
 };
 
 Game.prototype.update = function (dt) {
+    /*
     window.levelProgress = this.player.getPosition().z;
 
     // Call update methods to produce animation
@@ -132,6 +136,7 @@ Game.prototype.update = function (dt) {
     //this.camera.rotation.y = (window.innerWidth / 2 - this.mouseX) / 1000;
 
     this.camera.position.z = this.player.position.z + CONFIG.cameraOffset;
+    */
 };
 
 Game.prototype.checkCollisions = function () {
