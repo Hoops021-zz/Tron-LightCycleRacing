@@ -62,6 +62,16 @@ var UTIL = {
         context.drawImage(image, 0, 0);
 
         return context.getImageData(0, 0, image.width, image.height);
+
+        var ctx = document.getElementById('canvas').getContext('2d');
+        
+        var img = new Image;
+        img.onload = function() {
+            ctx.drawImage(img, 20,20);
+            alert('the image is drawn');
+        }
+        img.src = URL.createObjectURL(e.target.files[0]);
+
     },
     rgba : function (r, g, b, a) {
         return {

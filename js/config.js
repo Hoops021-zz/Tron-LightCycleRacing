@@ -138,7 +138,7 @@ var CONFIG = {
     },
     
     'initGameResources' : function (callback) {
-        var numOfItemsToLoad = 2, 
+        var numOfItemsToLoad = 3, 
             gameLoading = UTIL.load(numOfItemsToLoad, callback);
             
 
@@ -157,14 +157,31 @@ var CONFIG = {
             gameLoading.loadFinished();
         });
         
+        
+        // Load Texture to define level configuration/
         /*
-        // Load Texture to define level configuration
-        texture_loader.load('img/Levels/TunnelMap.png', {}, function (data) {
+        texture_loader.load('img/Levels/TunnelMap.png', function (data) {
             
             CONFIG.tunnelMapData = UTIL.getImageData(data);
             
             gameLoading.loadFinished();
         });*/
+        
+        var tunnel_map_img = new Image;
+        tunnel_map_img.onload = function() {
+            var canvas = document.createElement('canvas'), context;
+            canvas.width = tunnel_map_img.width;
+            canvas.height = tunnel_map_img.height;
+
+            context = canvas.getContext('2d');
+            context.drawImage(tunnel_map_img, 0, 0);
+
+            CONFIG.tunnelMapData = context.getImageData(0, 0, tunnel_map_img.width, tunnel_map_img.height);
+            
+            // Indicate finished loading asset
+            gameLoading.loadFinished();
+        }
+        tunnel_map_img.src = 'img/Levels/TunnelMap.png';//URL.createObjectURL('img/Levels/TunnelMap.png');
         
         // Load textures for Skybox
         var urlPrefix   = 'img/SpaceSkybox/',

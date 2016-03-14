@@ -152,6 +152,7 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
     // Create face out of vertices & push
     face = new THREE.Face4(3, 2, 1, 0);
     this.geometry.faces.push(face);
+    
     // Creates opposite face to cover the other side
     face = new THREE.Face4(0, 1, 2, 3);
     this.geometry.faces.push(face);

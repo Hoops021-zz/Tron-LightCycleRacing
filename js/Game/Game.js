@@ -41,7 +41,7 @@ function Game(rendermanager, soundManager, initCallback) {
         this.player = new Player(this.scene, this.glowScene);
         
         this.obstacles = new Obstacles(this.scene);
-        //-this.tunnel = new Tunnel(this.scene, this.obstacles);
+        this.tunnel = new Tunnel(this.scene, this.obstacles);
         this.itemManager = new ItemManager(this.scene);
         //-this.particleManager = new ParticleEngine(this.scene);
         this.skybox = new SkyBox(this.scene);
@@ -61,9 +61,8 @@ function Game(rendermanager, soundManager, initCallback) {
             if (!this.paused && this.resourcesLoaded) {
                 this.update(delta);
                 //log('drawing');
-                
+            
                 renderer.render(this.scene, this.camera);
-
                 /*
                 if (window.isMobileDevice) {
                     renderer.render(this.scene, this.camera);
@@ -92,7 +91,7 @@ Game.prototype.newGame = function () {
         // Reset Game Components
         
         this.player.reset();
-        //-this.tunnel.reset();
+        this.tunnel.reset();
         this.itemManager.reset();
         //-this.particleManager.reset();
         this.skybox.reset();
@@ -122,7 +121,8 @@ Game.prototype.update = function (dt) {
             this.playing = false;
         }
     } else {
-        //-this.tunnel.update();
+        
+        this.tunnel.update();
         this.itemManager.update();
         this.skybox.update();
         //-this.checkCollisions();
