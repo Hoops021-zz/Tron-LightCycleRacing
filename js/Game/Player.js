@@ -6,7 +6,7 @@ function Player(scene, glowscene) {
     this.scene = scene;
     this.glowScene = glowscene;
 
-    //-this.trail = new Trail(this.scene, this.glowScene);
+    this.trail = new Trail(this.scene, this.glowScene);
 
     this.position = CONFIG.playerPos.clone();
     this.velocity = CONFIG.playerDefaulVel.clone();
@@ -64,7 +64,7 @@ Player.prototype.reset = function () {
 
     this.updatePosition();
 
-    //-this.trail.reset();
+    this.trail.reset();
 
     if (this.DerezzEffect) {
         this.DerezzEffect.remove();
@@ -188,7 +188,7 @@ Player.prototype.update = function (dt) {
     if (this.isAlive) {
         this.move(dt);
         
-        //-this.trail.update(this.position.clone());
+        this.trail.update(this.position.clone());
     } else {
         this.DerezzEffect.update(dt);
     }

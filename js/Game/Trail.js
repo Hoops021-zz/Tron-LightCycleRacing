@@ -29,10 +29,11 @@ function Trail(scene, glowscene) {
     this.material = new THREE.MeshLambertMaterial({
         //map: THREE.ImageUtils.loadTexture('img/TrailTexture3.png'),
         map: loader.load("img/TrailTexture3.png"),
-        transparent: true,
+        //-transparent: true,
         reflectivity: 0.05
         // refractionRatio: 0.75
     });
+    this.material.side = THREE.DoubleSide;
 
     this.glowMaterial = new THREE.MeshPhongMaterial({
         //map: THREE.ImageUtils.loadTexture('img/TrailTexture3_glow.png'),
@@ -149,6 +150,39 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
         lastVertexBottom
     );
 
+
+    //push 1 triangle
+    triFace_1 = new THREE.Face3( 3, 2, 1);
+    this.geometry.faces.push(triFace_1 );
+    triFace_1.materialIndex = 0;
+
+    //push another triangle
+    triFace_2 = new THREE.Face3(3,  1, 0);
+    this.geometry.faces.push(triFace_2);
+    triFace_2.materialIndex = 0;
+
+    /*
+    // Configure UV Texturing coord data
+    faceuv = [
+        new THREE.Vector2(0, 1),
+        new THREE.Vector2(1, 1),
+        new THREE.Vector2(1, 0),
+        new THREE.Vector2(0, 0)
+    ];
+    
+    //this.geometry.faceUvs[0].push(new THREE.Vector2(0, 1));
+    this.geometry.faceVertexUvs[0].push(faceuv);
+    */
+
+    this.geometry.faceVertexUvs[ 0 ].push( [ new THREE.Vector2( 0, 1 ), 
+        new THREE.Vector2( 0, 0 ), 
+        new THREE.Vector2( 1, 0 ) ] );
+
+    this.geometry.faceVertexUvs[ 0 ].push( [ new THREE.Vector2( 0, 1 ), 
+        new THREE.Vector2( 1, 0 ), 
+        new THREE.Vector2( 1, 1 ) ] );
+
+/*
     // Create face out of vertices & push
     face = new THREE.Face4(3, 2, 1, 0);
     this.geometry.faces.push(face);
@@ -169,6 +203,6 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
     //this.geometry.faceUvs[0].push(new THREE.Vector2(0, 1));
     //this.geometry.faceUvs[0].push(new THREE.Vector2(0, 1));
     this.geometry.faceVertexUvs[0].push(faceuv);
-    this.geometry.faceVertexUvs[0].push(faceuv);
+    this.geometry.faceVertexUvs[0].push(faceuv);*/
 }
 
