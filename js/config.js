@@ -128,6 +128,9 @@ var CONFIG = {
         wireframe : false
     }),
 
+    // Skybox Settings
+    'skyBoxMaterialArray' : null,
+
     'initIntroResources' : function(callback){
         // Load .js (aka .obj geometry) files for game
         var geometryLoader = new THREE.JSONLoader();
@@ -138,18 +141,18 @@ var CONFIG = {
     },
     
     'initGameResources' : function (callback) {
-        var numOfItemsToLoad = 3, 
+        var numOfItemsToLoad = 9, 
             gameLoading = UTIL.load(numOfItemsToLoad, callback);
             
 
         // Load .js (aka .obj geometry) files for game
         var geometryLoader = new THREE.JSONLoader();
+
         geometryLoader.load('obj/LightDisk_2016.json', function (geometry) {
         //geometryLoader.load('obj/LightDisk.js', function (geometry) {
             CONFIG.PowerUpMesh = geometry;
             gameLoading.loadFinished();
         });
-
 
         geometryLoader.load('obj/LightCycle_2016.json', function (geometry) {
         //geometryLoader.load('obj/LightCycle.js', function (geometry) {
@@ -157,16 +160,7 @@ var CONFIG = {
             gameLoading.loadFinished();
         });
         
-        
-        // Load Texture to define level configuration/
-        /*
-        texture_loader.load('img/Levels/TunnelMap.png', function (data) {
-            
-            CONFIG.tunnelMapData = UTIL.getImageData(data);
-            
-            gameLoading.loadFinished();
-        });*/
-        
+        // Load image for game level map
         var tunnel_map_img = new Image;
         tunnel_map_img.onload = function() {
             var canvas = document.createElement('canvas'), context;
@@ -193,7 +187,18 @@ var CONFIG = {
                 urlPrefix + 'PosZ.png',
                 urlPrefix + 'NegZ.png'
             ];
-            /*
+
+        CONFIG.skyBoxMaterialArray = [];
+        for (var i = 0; i < 6; i++)
+            CONFIG.skyBoxMaterialArray.push( new THREE.MeshBasicMaterial({
+                //map: THREE.ImageUtils.loadTexture( urls[i] ),
+                map: texture_loader.load(urls[i], function(){
+                    gameLoading.loadFinished();
+                }),
+                side: THREE.BackSide
+        }));
+
+        /*
             //THREE.ImageUtils.loadTexture
         CONFIG.skyboxTextureCube = texture_loader.loadCube(urls, {}, function(data){
             //CONFIG.skyboxTextureCube = data;//UTIL.getImageData(data);

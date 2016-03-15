@@ -4,16 +4,17 @@
 
 function ParticleEngine(scene) {
     this.scene = scene;
-    this.particles = null;
+    this.particlesGeometry = null;
 
     // Generate all particles
     //this.generateParticles();
 
     // Set Shader Material Parameters
+    /*
     this.attributes = {
         size: {type: 'f', value: []},
         ca:   {type: 'c', value: []}
-    };
+    };*/
 
 
     this.uniforms = {
@@ -27,10 +28,10 @@ function ParticleEngine(scene) {
     this.shader = {
         vertexShader: [
             'attribute float size;',
-            'attribute vec3 ca;',
+            'attribute vec3 customColor;',
             'varying vec3 vColor;',
             'void main() {',
-                'vColor = ca;',
+                'vColor = customColor;',
                 'vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);',
                 'gl_PointSize = size;',
                 'gl_Position = projectionMatrix * mvPosition;',
@@ -51,10 +52,11 @@ function ParticleEngine(scene) {
 
     this.shaderMaterial = new THREE.ShaderMaterial({
         uniforms:       this.uniforms,
-        attributes:     this.attributes,
+        //attributes:     this.attributes,
         vertexShader:   this.shader.vertexShader,//document.getElementById('vertexshader').textContent,
         fragmentShader: this.shader.fragmentShader,//document.getElementById('fragmentshader').textContent,
         blending: THREE.AdditiveBlending,
+        //depthTest: false,
         transparent: true
     });
 
@@ -69,13 +71,12 @@ ParticleEngine.prototype.reset = function () {
 
     this.generateParticles();
 
-    // remove all attributes from shaders????
-
+/*
     // Modify attributes of shader on per-particle basis
-    var sizes = this.attributes.size.value,
-        colors = this.attributes.ca.value;
+    var sizes = this.particlesGeometry.attributes.size.array,
+        colors = this.particlesGeometry.attributes.customColor.array;
 
-    _.each(this.particles.vertices, function (vertex, v) {
+    _.each(this.particlesGeometry.vertices, function (vertex, v) {
         sizes[v] = 3;
         colors[v] = CONFIG.white;
         var value = Math.abs(vertex.z) / (CONFIG.viewDistance * 20);
@@ -85,11 +86,15 @@ ParticleEngine.prototype.reset = function () {
         colors[v].setHSL( h, ( s * v ) / ( ( h = ( 2 - s ) * v ) < 1 ? h : ( 2 - h ) ), h * 0.5 );
         
         //colors[v].setHSV(Math.random(), Math.random(), Math.random());
-    });
+    });*/
 
-    this.particleSystem = new THREE.ParticleSystem(this.particles, this.shaderMaterial);
+/*
+    this.particleSystem = new THREE.ParticleSystem(this.particlesGeometry, this.shaderMaterial);
     this.particleSystem.sortParticles = true;
     this.particleSystem.dynamic = true;
+*/
+
+    this.particleSystem = new THREE.Points( this.particlesGeometry, this.shaderMaterial );
 
     this.scene.add(this.particleSystem);
 };
@@ -97,11 +102,19 @@ ParticleEngine.prototype.reset = function () {
 ParticleEngine.prototype.generateParticles = function () {
      //- TODO: Transform to BufferGeometry with BufferedAttributes**8
      // http://threejs.org/docs/#Reference/Core/BufferGeometry
-     this.particles = new THREE.Geometry();
+     this.particlesGeometry = new THREE.BufferGeometry();
 
+    var positions = new Float32Array( CONFIG.particleCount * 3 );
+    var colors = new Float32Array( CONFIG.particleCount * 3 );
+    var sizes = new Float32Array( CONFIG.particleCount );
 
-    var theta, radius, pX, pY, pZ, particle;
-    _.times(CONFIG.particleCount, UTIL.wrap(this, function () {
+    var theta, radius, pX, pY, pZ, particle, particleColor = new THREE.Color();
+
+    var h = 0.55, s = 0.75, v = 1.0;
+    particleColor.setHSL( h, ( s * v ) / ( ( h = ( 2 - s ) * v ) < 1 ? h : ( 2 - h ) ), h * 0.5 );
+    
+    for ( var i = 0; i < CONFIG.particleCount; i ++ ) {
+
         theta = Math.random() * TWOPI;
         radius = Math.random() * 75 + CONFIG.tunnelRadius + 125;
 
@@ -109,25 +122,40 @@ ParticleEngine.prototype.generateParticles = function () {
         pY = radius * Math.sin(theta);
         pZ = Math.random() * (-CONFIG.viewDistance * 20);
 
-        particle = UTIL.v3c(pX, pY, pZ);
-        particle.velocity = UTIL.v3(0, 0, Math.random());
+        //-particle = UTIL.v3(pX, pY, pZ);
+        //-particle.velocity = UTIL.v3(0, 0, Math.random());
 
-        this.particles.vertices.push(particle);
+        positions[ i*3 + 0 ] = pX;
+        positions[ i*3 + 1 ] = pY;
+        positions[ i*3 + 2 ] = pZ;
 
-        this.attributes.size.value.push(3);
-        this.attributes.ca.value.push(CONFIG.white);
-    }));
+        colors[ i*3 + 0 ] = particleColor.r;
+        colors[ i*3 + 1 ] = particleColor.g;
+        colors[ i*3 + 2 ] = particleColor.b;
 
+        sizes[ i ] = 3;
+    }
+
+    this.particlesGeometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    this.particlesGeometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+    this.particlesGeometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 };
 
 // Need to refactor code
 ParticleEngine.prototype.update = function (particleSize) {
-    var pCount = CONFIG.particleCount,
+
+
+    for ( var i = 0; i < CONFIG.particleCount; i ++ ) {
+        this.particlesGeometry.attributes.size.array[i] = particleSize;
+    }
+
+    /*
+        var pCount = CONFIG.particleCount,
         particle;
 
-    _.each(this.particles.vertices, function (particle, i) {
+    _.each(this.particlesGeometry.vertices, function (particle, i) {
         // Adjust particle size
-        this.attributes.size.value[i] = particleSize;
+        this.particlesGeometry.attributes.size.array[i] = particleSize;
 
         // check if we need to reset
         if (Math.abs(particle.position.z) < Math.abs(window.levelProgress)) {
@@ -145,5 +173,8 @@ ParticleEngine.prototype.update = function (particleSize) {
     // flag to the particle system
     // that we've changed its vertices.
     this.particleSystem.geometry.__dirtyVertices = true;
-    this.attributes.size.needsUpdate = true;
+    this.particleSystem.geometry.verticesNeedUpdate = true;
+    */
+
+    this.particlesGeometry.attributes.size.needsUpdate = true;
 };

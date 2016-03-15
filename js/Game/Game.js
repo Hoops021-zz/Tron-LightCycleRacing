@@ -30,10 +30,8 @@ function Game(rendermanager, soundManager, initCallback) {
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
-    /*-
-    this.collisionManager = new CollisionManager();
-    this.soundManager = soundManager;
-    */
+    //-this.collisionManager = new CollisionManager();
+    //-this.soundManager = soundManager;
     
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
@@ -43,7 +41,7 @@ function Game(rendermanager, soundManager, initCallback) {
         this.obstacles = new Obstacles(this.scene);
         this.tunnel = new Tunnel(this.scene, this.obstacles);
         this.itemManager = new ItemManager(this.scene);
-        //-this.particleManager = new ParticleEngine(this.scene);
+        this.particleManager = new ParticleEngine(this.scene);
         this.skybox = new SkyBox(this.scene);
         
         this.resourcesLoaded = true;
@@ -73,10 +71,10 @@ function Game(rendermanager, soundManager, initCallback) {
             }
         },
         function () {
-            //this.soundManager.playMusic();
+            //-this.soundManager.playMusic();
         },
         function () {
-            //this.soundManager.pauseMusic();
+           //- this.soundManager.pauseMusic();
         }
     );
 
@@ -93,7 +91,7 @@ Game.prototype.newGame = function () {
         this.player.reset();
         this.tunnel.reset();
         this.itemManager.reset();
-        //-this.particleManager.reset();
+        this.particleManager.reset();
         this.skybox.reset();
 
         this.camera.position = CONFIG.cameraPos.clone();
@@ -204,10 +202,10 @@ Game.prototype.keyUp = function (key) {
         this.paused = !this.paused;
         if (this.paused) {
             $('#ingamemenu').fadeIn();
-            this.soundManager.pauseMusic();
+            //-this.soundManager.pauseMusic();
         } else {
             $('#ingamemenu').fadeOut();
-            this.soundManager.playMusic();
+            //-this.soundManager.playMusic();
         }
         // Update lastUpdate timestamp to so dt will be 0 during the pause
         this.lastUpdate = UTIL.now();

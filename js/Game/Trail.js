@@ -125,6 +125,7 @@ function TrailSegment(lastVertexTop, lastVertexBottom, playerPosition) {
     this.geometry = new THREE.Geometry();
     this.geometry.dynamic = true;
 
+
     var theta = playerPosition.theta,
         z = playerPosition.z,
         face,
