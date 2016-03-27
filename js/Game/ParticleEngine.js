@@ -6,16 +6,12 @@ function ParticleEngine(scene) {
     this.scene = scene;
     this.particlesGeometry = null;
 
-    // Generate all particles
-    //this.generateParticles();
-
     // Set Shader Material Parameters
     /*
     this.attributes = {
         size: {type: 'f', value: []},
         ca:   {type: 'c', value: []}
     };*/
-
 
     this.uniforms = {
         amplitude: {type: 'f', value: 1.0 },
@@ -115,19 +111,14 @@ ParticleEngine.prototype.generateParticles = function () {
     
     for ( var i = 0; i < CONFIG.particleCount; i ++ ) {
 
-        theta = Math.random() * TWOPI;
-        radius = Math.random() * 75 + CONFIG.tunnelRadius + 125;
-
-        pX = radius * Math.cos(theta);
-        pY = radius * Math.sin(theta);
-        pZ = Math.random() * (-CONFIG.viewDistance * 20);
+        var position = generateRandomParticlePosition();
 
         //-particle = UTIL.v3(pX, pY, pZ);
         //-particle.velocity = UTIL.v3(0, 0, Math.random());
 
-        positions[ i*3 + 0 ] = pX;
-        positions[ i*3 + 1 ] = pY;
-        positions[ i*3 + 2 ] = pZ;
+        positions[ i*3 + 0 ] = position.x;
+        positions[ i*3 + 1 ] = position.y;
+        positions[ i*3 + 2 ] = position.z;
 
         colors[ i*3 + 0 ] = particleColor.r;
         colors[ i*3 + 1 ] = particleColor.g;
@@ -144,9 +135,18 @@ ParticleEngine.prototype.generateParticles = function () {
 // Need to refactor code
 ParticleEngine.prototype.update = function (particleSize) {
 
-
     for ( var i = 0; i < CONFIG.particleCount; i ++ ) {
         this.particlesGeometry.attributes.size.array[i] = particleSize;
+
+        var particle_z = this.particlesGeometry.attributes.position.array[ i*3 + 2 ];
+
+        // If the particle is behind the player(aka no longer seen), then reset particle ahead
+        //if(particle_z > window.levelProgress)
+        if (Math.abs(particle_z) < Math.abs(window.levelProgress)) 
+        {
+            //this.particlesGeometry.attributes.position.array[ i*3 + 2 ] += window.levelProgress;
+            this.particlesGeometry.attributes.position.array[ i*3 + 2 ] = window.levelProgress - CONFIG.viewDistance * 20;
+        }
     }
 
     /*
@@ -177,4 +177,17 @@ ParticleEngine.prototype.update = function (particleSize) {
     */
 
     this.particlesGeometry.attributes.size.needsUpdate = true;
+    this.particlesGeometry.attributes.position.needsUpdate = true;
 };
+
+function generateRandomParticlePosition()
+{
+    var theta = Math.random() * TWOPI;
+    var radius = Math.random() * 75 + CONFIG.tunnelRadius + 125;
+
+    var pX = radius * Math.cos(theta);
+    var pY = radius * Math.sin(theta);
+    var pZ = Math.random() * (-CONFIG.viewDistance * 20);
+
+    return UTIL.v3(pX, pY, pZ);
+}

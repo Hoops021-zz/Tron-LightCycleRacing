@@ -25,6 +25,8 @@ ItemManager.prototype.generateItems = function (type, curve, numOfItems) {
     // x1,y1 to x2,y2 where x is theta and y is z
     // Consider r is constant for items
     // division = num of items = 10
+    console.log("generate items");
+
     var itemPoints = curve.getSpacedPoints(numOfItems),
         itemRadius = CONFIG.playerPos.radius,
         newPowerUp = null,
@@ -169,8 +171,8 @@ function Credit(scene, pos) {
         new THREE.MeshLambertMaterial({
             color: COLOR1,
             transparent: true,
-            specular: COLOR1,
-            shading: THREE.FlatShading,
+            //specular: COLOR1,
+            //shading: THREE.FlatShading,
             opacity: 0.75,
             //ambient: 0x202830
         })
@@ -202,7 +204,7 @@ function Credit(scene, pos) {
             specular: 0x000000,
             shading: THREE.FlatShading,
             opacity: 0.9,
-            ambient: 0x000000
+            //ambient: 0x000000
         })
     );
     this.glyph2oc.position = this.glyph2.position;

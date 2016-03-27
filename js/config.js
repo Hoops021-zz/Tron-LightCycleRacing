@@ -25,7 +25,7 @@ var CONFIG = {
     'viewDistance' : 1000,
 
     // Player Settings
-    'playerScale' : 3,
+    'playerScale' : 0.12,//3,
     'playerForwardVelMultiplier' : 0.05,
     'playerDefaultForwardVel' : -150,
     'playerMaxForwardVel' : -600,
@@ -41,7 +41,7 @@ var CONFIG = {
     'defaultPlayerJumpVel' : -450,
     'playerGravityAcceleration' : 1000,
     'playerMaterial' : new THREE.MeshLambertMaterial({
-        map: texture_loader.load('img/LightCycle_TextureTest1.png'),
+        //map: texture_loader.load('img/LightCycle_TextureTest1.png'),
         transparent : false
     }),
     'playerGlowMaterial' : new THREE.MeshPhongMaterial({
@@ -52,6 +52,8 @@ var CONFIG = {
         color:0xFFFFFF
     }),
     'playerGeometry' : null,
+    'playerColladaScene' : null,
+    'playerBoundingBox' : null,
 
     // Tunnel Settings
     'tunnelRadius' : 100,
@@ -62,7 +64,7 @@ var CONFIG = {
     'tunnelMapData' : null,
     'GRAYVAL' : 154,
     // Trail Settings
-    'trailMeshOffest' : 45,
+    'trailMeshOffest' : 15,//45,
     'trailLiveSections' : 35,
     'trailHeight' : 5,
 
@@ -134,7 +136,7 @@ var CONFIG = {
     'initIntroResources' : function(callback){
         // Load .js (aka .obj geometry) files for game
         var geometryLoader = new THREE.JSONLoader();
-        geometryLoader.load('obj/LightCycle.js', function (geometry) {
+        geometryLoader.load('obj/LightCycle_v2_blender.json', function (geometry) {
             CONFIG.playerGeometry = geometry;
             callback();
         });
@@ -154,11 +156,36 @@ var CONFIG = {
             gameLoading.loadFinished();
         });
 
-        geometryLoader.load('obj/LightCycle_2016.json', function (geometry) {
+        /*
+        geometryLoader.load('obj/LightCycle_v2_blender.json', function (geometry) {
         //geometryLoader.load('obj/LightCycle.js', function (geometry) {
             CONFIG.playerGeometry = geometry;
             gameLoading.loadFinished();
         });
+*/
+        var loader = new THREE.ColladaLoader();
+        loader.options.convertUpAxis = true;
+        loader.load( 'obj/LightCycle_v2_Maya.dae', function ( collada ) {
+            CONFIG.playerColladaScene = collada.scene;
+
+            /*
+            dae.traverse( function ( child ) {
+                if ( child instanceof THREE.SkinnedMesh ) {
+                    var animation = new THREE.Animation( child, child.geometry.animation );
+                    animation.play();
+                }
+            } );
+            */
+
+            CONFIG.playerColladaScene.scale.set(CONFIG.playerScale,CONFIG.playerScale, CONFIG.playerScale);
+            CONFIG.playerColladaScene.updateMatrix();
+
+            CONFIG.playerBoundingBox = new THREE.Box3();
+            CONFIG.playerBoundingBox.setFromObject(CONFIG.playerColladaScene);
+
+            gameLoading.loadFinished();
+        } );
+         
         
         // Load image for game level map
         var tunnel_map_img = new Image;
@@ -175,7 +202,7 @@ var CONFIG = {
             // Indicate finished loading asset
             gameLoading.loadFinished();
         }
-        tunnel_map_img.src = 'img/Levels/TunnelMap.png';//URL.createObjectURL('img/Levels/TunnelMap.png');
+        tunnel_map_img.src = 'img/Levels/tunnelmap.jpg';
         
         // Load textures for Skybox
         var urlPrefix   = 'img/SpaceSkybox/',

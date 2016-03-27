@@ -17,16 +17,22 @@ function Player(scene, glowscene) {
     this.score = 0;
     this.boosterMultiplier = 1;
     this.DerezzEffect = null;
+    this.isJumping = false;
 
-    this.material = CONFIG.playerMaterial;
+    //this.material = CONFIG.playerMaterial;
     this.glowMaterial = CONFIG.playerGlowMaterial;
 
+    /*
     this.mesh = new THREE.Mesh(CONFIG.playerGeometry, this.material);
     this.mesh.scale.set(CONFIG.playerScale, CONFIG.playerScale, CONFIG.playerScale);
+    
+    this.mesh = CONFIG.playerMesh;
     this.mesh.geometry.computeBoundingBox();
     this.boundingBox = this.mesh.geometry.boundingBox;
-    // this.mesh.geometry.computeBoundingSphere();
-    // this.boundingSphere = this.mesh.geometry.boundingSphere;
+    */
+
+    this.player = CONFIG.playerColladaScene;
+    this.boundingBox = CONFIG.playerBoundingBox
 
     var box = this.boundingBox,
         temp = box.max.clone().sub(box.min),
@@ -42,10 +48,10 @@ function Player(scene, glowscene) {
         radius : radius
     };
 
-    this.scene.add(this.mesh);
+    this.scene.add(this.player);
 
     this.glowMesh = new THREE.Mesh(CONFIG.playerGeometry, this.glowMaterial);
-    this.glowMesh.scale = this.mesh.scale;
+    this.glowMesh.scale = this.player.scale;
     this.glowMesh.overdraw = true;
     this.glowScene.add(this.glowMesh);
 
@@ -72,17 +78,17 @@ Player.prototype.reset = function () {
     this.DerezzEffect = null;
 
     //Ensure scenes have only one copy of meshes
-    this.scene.remove(this.mesh);
+    this.scene.remove(this.player);
     this.glowScene.remove(this.glowMesh);
 
-    this.scene.add(this.mesh);
+    this.scene.add(this.player);
     this.glowScene.add(this.glowMesh);
 };
 
 Player.prototype.Derezz = function () {
     if (this.isAlive) {
         // Remove mesh & glow mesh from respective scenes
-        this.scene.remove(this.mesh);
+        this.scene.remove(this.player);
         this.glowScene.remove(this.glowMesh);
 
         // Kill player
@@ -92,7 +98,7 @@ Player.prototype.Derezz = function () {
         var particles = new THREE.Geometry(),
             positionVector = this.position.convertToCartesian();
 
-        _.each(this.mesh.geometry.vertices, function (vertex) {
+        _.each(this.player.geometry.vertices, function (vertex) {
             var newVertex = vertex.clone();
             newVertex.position.multiplyScalar(3);
             newVertex.position.addSelf(positionVector);
@@ -109,7 +115,7 @@ Player.prototype.getPosition = function () {
 };
 
 Player.prototype.getRotation = function () {
-    return this.mesh.rotation;
+    return this.player.rotation;
 };
 
 Player.prototype.move = function (dt) {
@@ -126,25 +132,26 @@ Player.prototype.move = function (dt) {
         this.velocity.radius += CONFIG.playerGravityAcceleration * dt;
         this.position.radius += this.velocity.radius * dt;
         if (this.position.radius > CONFIG.playerPos.radius) {
+            this.isJumping = false;
             this.position.radius = CONFIG.playerPos.radius;
         }
     }
 
     // Update Rotation
     this.targetRotation += this.velocity.theta * dt;
-    this.mesh.rotation.z += (this.targetRotation - this.mesh.rotation.z) * CONFIG.playerRotationMultiplier;
+    this.player.rotation.z += (this.targetRotation - this.player.rotation.z) * CONFIG.playerRotationMultiplier;
 
     this.updatePosition();
 };
 
 Player.prototype.updatePosition = function () {
-    if (this.mesh !== null) {
+    if (this.player !== null) {
         var newPos = this.position.convertToCartesian();
-        this.mesh.position.set(newPos.x, newPos.y, newPos.z);
+        this.player.position.set(newPos.x, newPos.y, newPos.z);
         
         // Update Glow Mesh
-        this.glowMesh.rotation = this.mesh.rotation;
-        this.glowMesh.position = this.mesh.position;
+        this.glowMesh.rotation = this.player.rotation;
+        this.glowMesh.position = this.player.position;
     }
 };
 
@@ -173,7 +180,11 @@ Player.prototype.boost = function () {
 };
 
 Player.prototype.jump = function () {
-    this.velocity.radius = CONFIG.defaultPlayerJumpVel;
+    if(!this.isJumping)
+    {
+        this.isJumping = true;
+        this.velocity.radius = CONFIG.defaultPlayerJumpVel;
+    }
 };
 
 Player.prototype.resetForwardAcceleration = function () {

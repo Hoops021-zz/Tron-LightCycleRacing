@@ -20,6 +20,9 @@ function Game(rendermanager, soundManager, initCallback) {
         CONFIG.cameraFar
     );
     this.camera.position = CONFIG.cameraPos.clone();
+    this.camera.position.x = -5;
+    this.camera.position.y = -40;
+    //this.camera.lookAt 
 
     // Scene Initialization
     this.scene = new THREE.Scene();
@@ -31,7 +34,7 @@ function Game(rendermanager, soundManager, initCallback) {
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
     //-this.collisionManager = new CollisionManager();
-    //-this.soundManager = soundManager;
+    this.soundManager = soundManager;
     
     // Wrap the function to be called while preserving the context
     CONFIG.initGameResources(UTIL.wrap(this, function () {
@@ -71,10 +74,10 @@ function Game(rendermanager, soundManager, initCallback) {
             }
         },
         function () {
-            //-this.soundManager.playMusic();
+            this.soundManager.playMusic();
         },
         function () {
-           //- this.soundManager.pauseMusic();
+            this.soundManager.pauseMusic();
         }
     );
 
@@ -126,7 +129,7 @@ Game.prototype.update = function (dt) {
         //-this.checkCollisions();
     }
 
-    //-this.particleManager.update(this.soundManager.bgMusicGain / 20);
+    this.particleManager.update(this.soundManager.bgMusicGain / 20);
 
     // camera.position.z += CONFIG.cameraVel.z * dt;
     // TODO: Temp solution by placing camera with an offset from player
@@ -135,6 +138,12 @@ Game.prototype.update = function (dt) {
     //-this.camera.rotation.x = (window.innerHeight / 2 - this.mouseY) / 1000;
     //-this.camera.rotation.y = (window.innerWidth / 2 - this.mouseX) / 1000;
     
+    //var playerPos = this.player.position.convertToCartesian();
+    //this.camera.position.copy(playerPos);
+    //this.camera.rotation.z = 3.14/2;
+    //this.camera.position.z += 75;
+    //this.camera.position.y += 25;
+
     this.camera.position.z = this.player.position.z + CONFIG.cameraOffset;
 };
 
@@ -190,7 +199,7 @@ Game.prototype.keyDown = function (key) {
     case 40: /* DOWN */
         this.player.decelerate();
         break;
-    case 73:
+    case 73: /* 'I' */
         this.itemManager.genRandom();
         break;
     }
@@ -202,10 +211,10 @@ Game.prototype.keyUp = function (key) {
         this.paused = !this.paused;
         if (this.paused) {
             $('#ingamemenu').fadeIn();
-            //-this.soundManager.pauseMusic();
+            this.soundManager.pauseMusic();
         } else {
             $('#ingamemenu').fadeOut();
-            //-this.soundManager.playMusic();
+            this.soundManager.playMusic();
         }
         // Update lastUpdate timestamp to so dt will be 0 during the pause
         this.lastUpdate = UTIL.now();

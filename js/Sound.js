@@ -105,7 +105,8 @@
         this.source.connect(this.analyser);
         this.analyser.connect(this.processor);
         this.processor.connect(this.context.destination);
-        this.source.noteOn(0);
+        //-this.source.noteOn(0);
+        this.source.start();
         this.trigger('play');
     }
 

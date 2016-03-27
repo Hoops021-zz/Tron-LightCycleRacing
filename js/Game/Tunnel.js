@@ -32,7 +32,7 @@ function Tunnel(scene, obstacles) {
         new THREE.MeshLambertMaterial({
             color: 0x000000,
             opacity: 0.1,
-            shading: THREE.FlatShading
+            //shading: THREE.FlatShading
         }),
         new THREE.MeshFaceMaterial()
     ];
