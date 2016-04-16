@@ -33,7 +33,7 @@ function Game(rendermanager, soundManager, initCallback) {
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
-    //-this.collisionManager = new CollisionManager();
+    this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
     
     // Wrap the function to be called while preserving the context

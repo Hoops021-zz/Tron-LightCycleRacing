@@ -34,6 +34,7 @@ ItemManager.prototype.generateItems = function (type, curve, numOfItems) {
         point3D;
     for (i = 0; i < numOfItems; i += 1) {
         point3D = UTIL.v3c(itemRadius, itemPoints[i].x, itemPoints[i].y);
+    
         newPowerUp = new (this.typeMap[type])(this.scene, point3D.convertToCartesian());
         newPowerUp.id = this.gameItems.length;
         this.gameItems.push(newPowerUp);
@@ -67,11 +68,12 @@ ItemManager.prototype.genRandom = function () {
         // 50 50 split between the two types
         if (Math.random() > 0.5 && CONFIG.PowerUpMesh) {
             //var theta = -HALFPI;
-            theta = 360 * Math.random();
+            //theta = 360 * Math.random();
+            theta = 2 * Math.PI * Math.random();
             curve = new THREE.QuadraticBezierCurve(
-                theta, window.levelProgress - CONFIG.viewDistance,
-                theta, window.levelProgress - CONFIG.viewDistance * 1.5,
-                theta, window.levelProgress - CONFIG.viewDistance * 2
+                UTIL.v3(theta, window.levelProgress - CONFIG.viewDistance, 0),
+                UTIL.v3(theta, window.levelProgress - CONFIG.viewDistance * 1.5, 0),
+                UTIL.v3(theta, window.levelProgress - CONFIG.viewDistance * 2, 0)
             );
 
             this.generateItems('powerup', curve, 1);
@@ -79,9 +81,9 @@ ItemManager.prototype.genRandom = function () {
             //var theta = -HALFPI;
             theta = 2 * Math.PI * Math.random();
             curve = new THREE.QuadraticBezierCurve(
-                theta, window.levelProgress - CONFIG.viewDistance,
-                theta + Math.PI / 2, window.levelProgress - CONFIG.viewDistance * 1.5,
-                theta + Math.PI, window.levelProgress - CONFIG.viewDistance * 2
+                UTIL.v3(theta, window.levelProgress - CONFIG.viewDistance, 0),
+                UTIL.v3(theta + Math.PI / 2, window.levelProgress - CONFIG.viewDistance * 1.5, 0),
+                UTIL.v3(theta + Math.PI, window.levelProgress - CONFIG.viewDistance * 2, 0)
             );
 
             this.generateItems('credit', curve, CONFIG.CreditCountPerGen);
@@ -154,7 +156,7 @@ function Credit(scene, pos) {
             wireframeLinewidth: 4
         })
     );
-    this.glyph.position = this.position;
+    this.glyph.position.set(this.position.x, this.position.y, this.position.z);
     //this.scene.add(this.glyph);
     //this.parent.add(this.glyph);
 
@@ -177,7 +179,7 @@ function Credit(scene, pos) {
             //ambient: 0x202830
         })
     );
-    this.glyph2.position = this.position;
+    this.glyph2.position.set(this.position.x, this.position.y, this.position.z);
     this.parent.add(this.glyph2);
 
     // GLYPHE2 WIREFRAME
@@ -190,7 +192,7 @@ function Credit(scene, pos) {
             wireframeLinewidth: 2
         })
     );
-    this.glyph2wf.position = this.position;
+    this.glyph2wf.position.set(this.position.x, this.position.y, this.position.z);
     this.glyph2wf.rotation = this.glyph2.rotation;
     this.glyph2wf.scale.x = this.glyph2wf.scale.y = this.glyph2wf.scale.z = this.glyph2.scale.x + 0.01;
     //this.scene.add(this.glyph2wf);
@@ -207,7 +209,7 @@ function Credit(scene, pos) {
             //ambient: 0x000000
         })
     );
-    this.glyph2oc.position = this.glyph2.position;
+    this.glyph2oc.position.set(this.glyph2.position.x, this.glyph2.position.y, this.glyph2.position.z);
     this.glyph2oc.rotation = this.glyph2.rotation;
     this.glyph2oc.scale.x = this.glyph2oc.scale.y = this.glyph2oc.scale.z = this.glyph2.scale.x;
     this.glowsparent.add(this.glyph2oc);
@@ -220,6 +222,8 @@ Credit.prototype.remove = function () {
 };
 
 Credit.prototype.update = function () {
+
+    console.log("rendering");
     this.glyph.rotation.x += CONFIG.CreditCountRotX;
     this.glyph.rotation.z += CONFIG.CreditCountRotZ;
 

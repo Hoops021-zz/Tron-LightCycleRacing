@@ -202,7 +202,7 @@ var CONFIG = {
             // Indicate finished loading asset
             gameLoading.loadFinished();
         }
-        tunnel_map_img.src = 'img/Levels/tunnelmap.jpg';
+        tunnel_map_img.src = 'img/Levels/TunnelMap.png';
         
         // Load textures for Skybox
         var urlPrefix   = 'img/SpaceSkybox/',
