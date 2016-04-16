@@ -10,7 +10,9 @@
   <meta name="description" content="">
 
   <meta name="viewport" content="width=device-width">
+  
   <link rel="stylesheet" href="css/style.css?v=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
@@ -26,6 +28,17 @@
           <br/>
           Note: Work in progress
         </p>
+    </div>
+    <div id="loadingMenu" class="menu" hidden="">
+      <div  class="progress" >
+        <div id="loadingProgressBar"  class="progress-bar progress-bar-tron" role="progressbar"
+          aria-valuemin="0" aria-valuemax="100" style="width:0%">
+          
+        </div>
+        <span style="position: absolute;display: block;width: 100%;color: black;">
+        Loading Game...
+        </span>
+      </div>
     </div>
     <div id="ingamemenu" class="menu" style="display:none;">
         <button id="resume">Resume</button>
@@ -54,7 +67,7 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
   <script src="js/libs/three.min.js"></script>
   <script src="js/libs/three.extras.rendermanager.js"></script>
-  
+
   <script src="js/libs/collada/Animation.js"></script>
   <script src="js/libs/collada/AnimationHandler.js"></script>
   <script src="js/libs/collada/KeyFrameAnimation.js"></script>

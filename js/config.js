@@ -142,13 +142,21 @@ var CONFIG = {
         });
     },
     
-    'initGameResources' : function (callback) {
-        var numOfItemsToLoad = 9, 
+    'initGameResources' : function (loadingCallback, callback) {
+        var numOfItemsToLoad = 4, 
             gameLoading = UTIL.load(numOfItemsToLoad, callback);
-            
+
+        var loadingManager = new THREE.LoadingManager();
+        loadingManager.onProgress = function ( item, loaded, total ) {
+            console.log( item, loaded, total );
+            loadingCallback(loaded / total);
+        };
+        loadingManager.onLoad = function(){
+            gameLoading.loadFinished();
+        };
 
         // Load .js (aka .obj geometry) files for game
-        var geometryLoader = new THREE.JSONLoader();
+        var geometryLoader = new THREE.JSONLoader(loadingManager);
 
         geometryLoader.load('obj/LightDisk_2016.json', function (geometry) {
         //geometryLoader.load('obj/LightDisk.js', function (geometry) {
@@ -163,7 +171,7 @@ var CONFIG = {
             gameLoading.loadFinished();
         });
 */
-        var loader = new THREE.ColladaLoader();
+        var loader = new THREE.ColladaLoader(loadingManager);
         loader.options.convertUpAxis = true;
         loader.load( 'obj/LightCycle_v2_Maya.dae', function ( collada ) {
             CONFIG.playerColladaScene = collada.scene;
@@ -215,12 +223,14 @@ var CONFIG = {
                 urlPrefix + 'NegZ.png'
             ];
 
+        var skyBoxLoader = new THREE.TextureLoader(loadingManager);
+
         CONFIG.skyBoxMaterialArray = [];
         for (var i = 0; i < 6; i++)
             CONFIG.skyBoxMaterialArray.push( new THREE.MeshBasicMaterial({
                 //map: THREE.ImageUtils.loadTexture( urls[i] ),
-                map: texture_loader.load(urls[i], function(){
-                    gameLoading.loadFinished();
+                map: skyBoxLoader.load(urls[i], function(){
+                    //gameLoading.loadFinished();
                 }),
                 side: THREE.BackSide
         }));

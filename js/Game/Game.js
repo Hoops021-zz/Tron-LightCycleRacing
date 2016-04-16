@@ -2,7 +2,7 @@
  * @author Troy Ferrell & Yang Su
  */
 
-function Game(rendermanager, soundManager, initCallback) {
+function Game(rendermanager, soundManager, loadingCallback, initCallback) {
     // Game Initalization
     this.playing = false;
     this.paused = false;
@@ -33,11 +33,11 @@ function Game(rendermanager, soundManager, initCallback) {
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
-    this.collisionManager = new CollisionManager();
+    //-this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
     
-    // Wrap the function to be called while preserving the context
-    CONFIG.initGameResources(UTIL.wrap(this, function () {
+    // Wrap the function to be called while preserving the contex
+    CONFIG.initGameResources(loadingCallback, UTIL.wrap(this, function () {
         // Objects
         this.player = new Player(this.scene, this.glowScene);
         

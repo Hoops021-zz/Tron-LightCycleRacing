@@ -67,8 +67,15 @@ $(document).ready(function () {
         renderManager.renderCurrent();
     }
     
+    function loadProgress(progress){
+        // update progress bar on main menu screen
+       var value = Math.floor(progress * 100.0);
+        $('#loadingProgressBar').css('width', value+'%').attr('aria-valuenow', value); 
+    }
+
     function launchGame(){
-        //sdfsdf
+        $('#loadingMenu').hide();
+
          myGame.newGame();
          renderManager.setCurrent('Game');
     }
@@ -100,7 +107,10 @@ $(document).ready(function () {
             // If game not initalized, create game object & when initalized launch
             // If already initialized, then proceed to launch game
             if(myGame == null){
-                myGame = new Game(renderManager, soundManager, function(){
+                // Show progress bar
+                $('#loadingMenu').show();
+                
+                myGame = new Game(renderManager, soundManager, loadProgress, function(){
                     launchGame()
                 });
             }

@@ -107,6 +107,10 @@ canvas {
     color: #71d2e1;
 }
 
+.progress-bar-tron{
+  background-color: #47C5D8 !important;
+}
+
 #scorediv {
     position: fixed;
     top: 0;

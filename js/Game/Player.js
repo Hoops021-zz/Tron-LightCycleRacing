@@ -32,7 +32,7 @@ function Player(scene, glowscene) {
     */
 
     this.player = CONFIG.playerColladaScene;
-    this.boundingBox = CONFIG.playerBoundingBox
+    this.boundingBox = CONFIG.playerBoundingBox;
 
     var box = this.boundingBox,
         temp = box.max.clone().sub(box.min),
