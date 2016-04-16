@@ -111,7 +111,7 @@ canvas {
   background-color: #47C5D8 !important;
 }
 
-#scorediv {
+#errordiv {
     position: fixed;
     top: 0;
     right: 0;
@@ -121,7 +121,7 @@ canvas {
     z-index: 5;
 }
 
-#timerdiv {
+#scorediv {
 	position: fixed;
 	top: 0;
 	left: 45%;

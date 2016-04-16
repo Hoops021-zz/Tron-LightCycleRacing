@@ -74,6 +74,7 @@ $(document).ready(function () {
     }
 
     function launchGame(){
+        // Hide loading if it was shown
         $('#loadingMenu').hide();
 
          myGame.newGame();
@@ -109,7 +110,7 @@ $(document).ready(function () {
             if(myGame == null){
                 // Show progress bar
                 $('#loadingMenu').show();
-                
+
                 myGame = new Game(renderManager, soundManager, loadProgress, function(){
                     launchGame()
                 });
@@ -167,6 +168,6 @@ $(document).ready(function () {
     });
 
     window.onerror = function (err) {
-        $('#score').html(err);
+        $('#errordiv').html(err);
     };
 });

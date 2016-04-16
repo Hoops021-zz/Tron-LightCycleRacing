@@ -112,6 +112,10 @@ Game.prototype.update = function (dt) {
     
     window.levelProgress = this.player.getPosition().z;
 
+    // TODO: clean this up. Move score to Game level outside of player
+    this.player.score += dt;
+    $('#score').html(Math.floor(this.player.score));
+
     // Call update methods to produce animation
     this.player.update(dt);
     this.player.accelerate();
