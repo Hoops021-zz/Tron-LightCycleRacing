@@ -76,6 +76,8 @@ $(document).ready(function () {
     function launchGame(){
         // Hide loading if it was shown
         $('#loadingMenu').hide();
+        $('#scorediv').show();
+        $('#controlDiv').show();
 
          myGame.newGame();
          renderManager.setCurrent('Game');
@@ -138,6 +140,18 @@ $(document).ready(function () {
             //start new game here
             myGame.newGame();
         });
+    });
+
+    $('#toggleSound').click(function(){
+        var addClass = (myGame.soundEnabled ? "fa-volume-off" : "fa-volume-up");
+        var rmClass = (myGame.soundEnabled ? "fa-volume-up" : "fa-volume-off");
+
+        // Update sound setting
+        myGame.toggleMusic();
+
+        // Update UI
+        $('#toggleSoundIcon').removeClass(rmClass);
+        $('#toggleSoundIcon').addClass(addClass);
     });
 
     // mousemove

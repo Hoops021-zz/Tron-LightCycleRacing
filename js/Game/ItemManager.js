@@ -222,8 +222,6 @@ Credit.prototype.remove = function () {
 };
 
 Credit.prototype.update = function () {
-
-    console.log("rendering");
     this.glyph.rotation.x += CONFIG.CreditCountRotX;
     this.glyph.rotation.z += CONFIG.CreditCountRotZ;
 

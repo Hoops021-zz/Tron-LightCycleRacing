@@ -7,6 +7,8 @@ function Game(rendermanager, soundManager, loadingCallback, initCallback) {
     this.playing = false;
     this.paused = false;
     this.resourceLoaded = false;
+    this.score = 0;
+    this.soundEnabled = true;
 
     var offset = 6;
     this.WIDTH = window.innerWidth - offset;
@@ -33,7 +35,7 @@ function Game(rendermanager, soundManager, loadingCallback, initCallback) {
     this.glowScene = new THREE.Scene();
     this.glowScene.add(new THREE.AmbientLight(0xFFFFFF));
 
-    //-this.collisionManager = new CollisionManager();
+    this.collisionManager = new CollisionManager();
     this.soundManager = soundManager;
     
     // Wrap the function to be called while preserving the contex
@@ -74,7 +76,9 @@ function Game(rendermanager, soundManager, loadingCallback, initCallback) {
             }
         },
         function () {
-            this.soundManager.playMusic();
+            if(this.soundEnabled){
+                this.soundManager.playMusic();
+            }
         },
         function () {
             this.soundManager.pauseMusic();
@@ -88,9 +92,9 @@ Game.prototype.newGame = function () {
         // Reset Game Parameters
         this.playing = true;
         this.lastUpdate = UTIL.now();
+        this.score = 0;
 
         // Reset Game Components
-        
         this.player.reset();
         this.tunnel.reset();
         this.itemManager.reset();
@@ -100,7 +104,7 @@ Game.prototype.newGame = function () {
         this.camera.position = CONFIG.cameraPos.clone();
 
         // update timer
-        $('#score').html(this.player.score);
+        $('#score').html(this.score);
     }
 };
 
@@ -113,8 +117,8 @@ Game.prototype.update = function (dt) {
     window.levelProgress = this.player.getPosition().z;
 
     // TODO: clean this up. Move score to Game level outside of player
-    this.player.score += dt;
-    $('#score').html(Math.floor(this.player.score));
+    this.score += dt;
+    $('#score').html(Math.floor(this.score));
 
     // Call update methods to produce animation
     this.player.update(dt);
@@ -130,7 +134,7 @@ Game.prototype.update = function (dt) {
         this.tunnel.update();
         this.itemManager.update();
         this.skybox.update();
-        //-this.checkCollisions();
+        this.checkCollisions();
     }
 
     this.particleManager.update(this.soundManager.bgMusicGain / 20);
@@ -162,8 +166,7 @@ Game.prototype.checkCollisions = function () {
                 this.player.boost();
             } else if (item.type === 'credit') {
                 // Update player score
-                this.player.score += CONFIG.CreditValue;
-                $('#score').html(this.player.score);
+                this.score += CONFIG.CreditValue;
             }
 
             // Remove Item from view
@@ -171,10 +174,12 @@ Game.prototype.checkCollisions = function () {
         }
     }, this);
 
+    /*
     // Check that player is still on track
     if (!this.collisionManager.checkPlayerTunnelCollision(this.player, this.tunnel)) {
         this.player.Derezz();
     }
+    */
 
     // check collisions for all obstacles
     // TODO: write code here
@@ -218,7 +223,9 @@ Game.prototype.keyUp = function (key) {
             this.soundManager.pauseMusic();
         } else {
             $('#ingamemenu').fadeOut();
-            this.soundManager.playMusic();
+            if(this.soundEnabled){
+                this.soundManager.playMusic();
+            }
         }
         // Update lastUpdate timestamp to so dt will be 0 during the pause
         this.lastUpdate = UTIL.now();
@@ -245,6 +252,17 @@ Game.prototype.keyUp = function (key) {
         break;
     }
 };
+
+Game.prototype.toggleMusic = function(){
+    if(this.soundEnabled){
+        this.soundEnabled = false;
+        this.soundManager.pauseMusic();
+    }
+    else{
+        this.soundEnabled = true;
+        this.soundManager.playMusic();
+    }
+}
 
 Game.prototype.initPostProcessing = function () {
     // GLOW COMPOSER

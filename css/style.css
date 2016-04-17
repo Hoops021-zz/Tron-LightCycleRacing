@@ -96,13 +96,13 @@ canvas {
     z-index: 5;
 }
 
-.menu > button {
+button {
     border: 2px solid #47C5D8;
     background: black;
     color: #47C5D8;
 }
 
-.menu > button:hover {
+button:hover {
     border: 2px solid #71d2e1;
     color: #71d2e1;
 }
@@ -113,12 +113,21 @@ canvas {
 
 #errordiv {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 95%;
+    left: 45%;
     color: #47C5D8;
     width: 100px;
     text-align: right;
     z-index: 5;
+}
+
+#controlDiv{
+  position: fixed;
+  top: 0;
+  left: 85%;
+  z-index: 5;
+  color: #47C5D8;
+  width: 100px;
 }
 
 #scorediv {

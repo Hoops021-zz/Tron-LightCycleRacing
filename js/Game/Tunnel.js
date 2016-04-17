@@ -142,9 +142,11 @@ Tunnel.prototype.generateSection = function (startZ) {
     this.scene.add(newMesh);
 
     this.imagePosition += CONFIG.tunnelSegmentPerSection;
+    console.log(this.imagePosition);
     if (this.imagePosition >= this.imageData.width) {
         // End level here, wrap map for now
         this.imagePosition = 0;
+        console.log("wrapping");
     }
 
     // TODO avoid using globals. Probably need to implement an event system

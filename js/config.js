@@ -20,7 +20,7 @@ var CONFIG = {
     'cameraFar' : 100000,
     'cameraPos' : UTIL.v3(-15, 0, 200),
     'cameraVel' : UTIL.v3c(0, 0, -150),
-    'cameraOffset' : 200,
+    'cameraOffset' : 125,
 
     'viewDistance' : 1000,
 

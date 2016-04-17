@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" href="css/style.css?v=1">
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
 
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
@@ -52,19 +53,24 @@
         <button id="mainmenu">Main Menu</button>
     </div>
 
-    <div id="scorediv">
+    <div id="scorediv" hidden>
         Score: <span id="score">0</span>
     </div>
 
+    <div id="controlDiv" hidden>
+      <button id="toggleSound">
+        Sound
+        <i id="toggleSoundIcon" class="fa fa-volume-up" aria-hidden="true"></i> 
+      </button>
+    </div>
+
     <div id="errordiv">
-    	
     </div>
   </div>
   <footer></footer>
+  
+  <script src="js/libs/jquery-1.12.3.min.js"></script>
 
-  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
   <script src="js/libs/three.min.js"></script>
   <script src="js/libs/three.extras.rendermanager.js"></script>
 
